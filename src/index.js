@@ -24,15 +24,15 @@ $(document).ready(function () {
     });
 
      calcPercent.on('click', function () {
-        calcDisplay.val( calcDisplay.val() / 100 );
+        calcDisplay.val( findPercent( String(calcDisplay.val()) ));
     });
 
     calcOperand.on('click', function () {
-        calcDisplay.val( findResult( String( calcDisplay.val() ) ) + $(this).attr('value'));
+        calcDisplay.val( findResult( String(calcDisplay.val()) ) + $(this).attr('value'));
     });
 
     calcEqual.on('click', function () {
-        calcDisplay.val( findResult( String( calcDisplay.val() ) ) );
+        calcDisplay.val( findResult( String(calcDisplay.val()) ) );
     });
 
     calcSpace.on('click', function () { 
@@ -110,6 +110,78 @@ $(document).ready(function () {
         }else{
 
             return value;
+        }
+    }
+    function findPercent(value) {
+		value = String(value);
+			//console.log(value);
+			//console.log(value.length);
+            //console.log(value[value.length-1]);
+        if((value[value.length-1] === "-") || (value[value.length-1] === "+") || (value[value.length-1] === "*") || (value[value.length-1] === "/")){ 
+            value = value.substring(0, value.length-1);
+        } 
+
+        if( (value.indexOf("-") !== -1) && (value.indexOf("-") !== value.length-1) ) {
+            let result = 0;
+            index = value.indexOf("-");
+            let numb1 = value.substr(0, index);
+                //console.log(numb1);
+            result = result + Number(numb1);
+                //console.log(result);
+            value = value.substr(index + 1);
+                // console.log(value);
+            result = result - (result / 100 * Number(value));
+            //console.log(result, 'result');
+
+            return result;
+        }
+        if((value.indexOf("+") !== -1) && (value.indexOf("+") !== value.length-1)) {
+            
+            let result =0;
+            index = value.indexOf("+");
+            let numb1 = value.substr(0, index);
+            // console.log(numb1);
+            result = result + Number(numb1);
+            //console.log(result);
+            value = value.substr(index + 1);
+            // console.log(value);
+            result = result + (result / 100 * Number(value));
+            //console.log(result, 'result');
+
+            return result;
+        }
+        if((value.indexOf("*") !== -1) && (value.indexOf("*") !== value.length-1)) {
+            
+            let result =0;
+            index = value.indexOf("*");
+            let numb1 = value.substr(0, index);
+            // console.log(numb1);
+            result = result + Number(numb1);
+            //console.log(result);
+            value = value.substr(index + 1);
+            // console.log(value);
+            result = result * (result / 100 * Number(value));;
+            //console.log(result, 'result');
+
+            return result;
+        }
+        if((value.indexOf("/") !== -1) && (value.indexOf("/") !== value.length-1)){
+            
+            let result =0;
+            index = value.indexOf("/");
+            let numb1 = value.substr(0, index);
+            // console.log(numb1);
+            result = result + Number(numb1);
+            //console.log(result);
+            value = value.substr(index + 1);
+            // console.log(value);
+            result = result / (result / 100 * Number(value));
+            //console.log(result, 'result');
+         
+            return result;
+        }else{
+
+            return value / 100;
         }
     }
 
